@@ -2,4 +2,7 @@
     <string name="app_name">Sssh</string>
     <string name="action_delete">Delete a Location</string>
     <string name="settings">Settings</string>
+    <string name="Turn_on_off">Turn off Ssssh</string>
+    <string name="enable_loc_per">Enable Location Permission</string>
+    <string name="enable_ringer_per">Enable Ringer Permission</string>
 </resources>

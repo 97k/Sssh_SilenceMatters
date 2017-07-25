@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.android.sssh">
 
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="YOUR_API_KEY"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,5 +23,9 @@
         <activity android:name=".SettingsActivity">
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> <!-- Permission for the location-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/> <!--Permission for the notification for android N and higher-->
 
 </manifest>
