@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Sssh</string>
+    <string name="action_delete">Delete a Location</string>
+    <string name="settings">Settings</string>
+</resources>
