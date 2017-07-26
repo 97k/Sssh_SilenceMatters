@@ -5,4 +5,6 @@
     <string name="Turn_on_off">Turn off Ssssh</string>
     <string name="enable_loc_per">Enable Location Permission</string>
     <string name="enable_ringer_per">Enable Ringer Permission</string>
+    <string name="need_locaiton_permission">First Give acess to Locaiton Permission. Go to settings
+    by clicking on the Settings icon in the app bar!</string>
 </resources>

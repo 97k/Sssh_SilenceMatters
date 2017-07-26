@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class PlaceDbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "places.db";
+    private static final String DATABASE_NAME = "sssh.db";
 
     // Helps creating the new database.
     public PlaceDbHelper(Context context) {
@@ -21,14 +21,14 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // Creates the database, if not present.
         // Create a table to hold the place data.
-        final String SQL_CREATE_PLACE_TABLE = "CREATE TABLE "
-                + PlaceContract.PlaceEntry.TABLE_NAME + "( " +
-                PlaceContract.PlaceEntry._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        // Create a table to hold the places data
+        final String SQL_CREATE_PLACES_TABLE = "CREATE TABLE " + PlaceContract.PlaceEntry.TABLE_NAME + " (" +
+                PlaceContract.PlaceEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 PlaceContract.PlaceEntry.COLUMN_PLACE_ID + " TEXT NOT NULL, " +
                 "UNIQUE (" + PlaceContract.PlaceEntry.COLUMN_PLACE_ID + ") ON CONFLICT REPLACE" +
-                "); ";
-        sqLiteDatabase.execSQL(SQL_CREATE_PLACE_TABLE);
+                ");";
 
+            sqLiteDatabase.execSQL(SQL_CREATE_PLACES_TABLE);
     }
 
     @Override
