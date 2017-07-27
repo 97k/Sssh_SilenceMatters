@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Array for the content that will appear in the selection of mode inside spinner-->
+    <string-array name="mode_selection">
+        <item>@string/silent_mode</item>
+        <item>@string/vibrate_mode</item>
+    </string-array>
+</resources>

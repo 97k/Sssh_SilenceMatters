@@ -51,6 +51,19 @@ public class Geofencing implements ResultCallback<Status> {
         }
     }
 
+    public void unregisterAllGeofencingRequest(){
+        if (mClient==null || !mClient.isConnected()) return;
+            try {
+                LocationServices.GeofencingApi.removeGeofences(mClient,
+                        //The same which we used to register the geofence
+                        getGeofencePendingIntent())
+                        .setResultCallback(this);
+
+            }catch (SecurityException se){
+                Log.e(TAG_NAME, se.getMessage());
+            }
+    }
+
     public void updateGeofenceList(PlaceBuffer places){
         mGeofenceList = new ArrayList<>();
         if (places==null || places.getCount()==0) return;
@@ -86,6 +99,7 @@ public class Geofencing implements ResultCallback<Status> {
 
     @Override
     public void onResult(@NonNull Status status) {
+        Log.e(TAG_NAME, "This is on result call!");
 
     }
 }

@@ -27,5 +27,8 @@ public class PlaceContract  {
          */
         public static final String TABLE_NAME = "places";
         public static final String COLUMN_PLACE_ID = "placeID";
+        public static final int SILENT_MODE = 1;
+        public static final int VIBRATE_MODE = 2;
+        public static final int UNKNOWN_MODE = 0;
     }
 }
