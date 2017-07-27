@@ -8,8 +8,14 @@
     <string name="need_locaiton_permission">First Give acess to Locaiton Permission. Go to settings
     by clicking on the Settings icon in the app bar!</string>
     <string name="on_off">Switch it on, first!</string>
-    <string name="modes">Choose mode</string>
+    <string name="modes_selection_key">choose mode</string>
     <string name="silent_mode">Silent mode</string>
     <string name="vibrate_mode">Vibrate mode</string>
+
+    <!-- Strings For Preference [CHAR LIMIT=30] -->
+    <string name="settings_mode_selection_label">Select Mode</string>
+    <string name="settings_mode_selection_key" translatable="false">mode_selection</string>
+    <string name="settings_mode_selection_default" translatable="false">Vibrate</string>
+
 
 </resources>

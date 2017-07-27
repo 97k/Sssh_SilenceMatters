@@ -1,8 +1,10 @@
 package com.example.android.sssh;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -13,7 +15,6 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import com.example.android.sssh.provider.PlaceContract;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -21,9 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 111;
     private static final int PLACE_PICKER_REQUEST = 1;
-
-    // Member Variables.
-    private GoogleApiClient mClient;
+    public static final String PREF_NAME = "selectionMode";
     private Spinner mModeSelectionSpinner;
     private int ringerMode;
 
@@ -32,9 +31,16 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        mModeSelectionSpinner = (Spinner)findViewById(R.id.spinner_selection);
         setupSpinner();
 
     }
+
+    public static class SshPreference extends PreferenceFragment{
+
+    }
+
+    
 
     @Override
     public void onResume() {
@@ -84,6 +90,9 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 }
                 // Update the ringer mode in the sharedPreferences.
+                SharedPreferences settings = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor edit = settings.edit();
+                edit.putInt(getString(R.string.selected_mode), ringerMode).commit();
 
             }
 

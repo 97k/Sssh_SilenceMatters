@@ -17,6 +17,7 @@ public class GeofencingBroadcastReceiver extends BroadcastReceiver {
     private Context mContext;
     private static final String TAG_NAME = GeofencingBroadcastReceiver.class.getSimpleName();
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);

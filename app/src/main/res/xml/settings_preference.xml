@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings">
+
+    <ListPreference
+        android:defaultValue="@string/settings_mode_selection_default"
+        android:entries="@array/mode_selection_by_labels"
+        android:entryValues="@array/mode_selection_value"
+        android:key="@string/modes_selection_key"
+        android:title="@string/settings_mode_selection_label"/>
+
+</PreferenceScreen>
