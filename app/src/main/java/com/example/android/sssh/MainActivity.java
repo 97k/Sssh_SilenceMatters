@@ -1,16 +1,22 @@
 package com.example.android.sssh;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.android.sssh.provider.PlaceContract;
@@ -27,6 +34,7 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
@@ -41,10 +49,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final String TAG_NAME = MainActivity.class.getSimpleName();
     private static final int PLACE_PICKER_REQUEST = 1;
     private FloatingActionButton addPlaceFab;
-
+    private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 111;
+    private RelativeLayout emptyview;
     private RecyclerView mRecyclerView;
     private PlacesRV_Adapter mAdapter;
     private GoogleApiClient mClient;
+    private Geofencing mGeofencing;
 
     /**
      * @param menu The menu to inflate.
@@ -66,6 +76,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mAdapter = new PlacesRV_Adapter(this, null);
         mRecyclerView.setAdapter(mAdapter);
         addPlaceFab = (FloatingActionButton) findViewById(R.id.add_places_fab);
+        emptyview = (RelativeLayout) findViewById(R.id.empty_view);
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        // For android nougat onwards you have to take permission for Notifications through
+        // isNotificationPolicyAccessGranted().
+
+        if (Build.VERSION.SDK_INT >= 24 && !nm.isNotificationPolicyAccessGranted()) {
+            Toast.makeText(this, "Enable this Permission", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+            startActivity(intent);
+        }
 
 
         // Setting up Google Api client.
@@ -78,6 +99,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .enableAutoManage(this, this)
                 .build();
 
+        mGeofencing = new Geofencing(this, mClient);
+        /* If there is data in our data base then we register the geofences. See refreshPlacesData
+         *  onResult method.
+         */
+        boolean mIsEnabled = getPreferences(MODE_PRIVATE).getBoolean(getString(R.string.settings_mode_selection_key), false);
+        if (mIsEnabled)
+            mGeofencing.registerAllGeofences();
+
+
     }
 
 
@@ -88,7 +118,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 null,
                 null,
                 null);
-        if (data == null || data.getCount() == 0) return;
+        if (data == null || data.getCount() == 0) {
+            mRecyclerView.setVisibility(View.GONE);
+            emptyview.setVisibility(View.VISIBLE);
+            return;
+        }
+        emptyview.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
         // Stores the data in the List.
         List<String> placesIds = new ArrayList<String>();
         while (data.moveToNext()) {
@@ -104,13 +140,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onResult(@NonNull PlaceBuffer places) {
                 // Update the recycler view.
                 mAdapter.swapPlaces(places);
+                mGeofencing.updateGeofenceList(places);
+                mGeofencing.registerAllGeofences();
+                SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+                editor.putBoolean(getString(R.string.settings_mode_selection_key), true);
+                editor.commit();
 
             }
         });
 
 
     }
-
 
 
     @Override
@@ -130,12 +170,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
     public void onFABClicked(View view) {
-
+        // Accessing the location Permission and if not have, we ask for it using run time permission model.
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(MainActivity.this, getString(R.string.need_locaiton_permission),
-                    Toast.LENGTH_LONG).show();
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_FINE_LOCATION);
             return;
+
         }
         try {
             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
@@ -145,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             e.printStackTrace();
         } catch (GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            Log.e(TAG_NAME, String.format("PlacePicker Exception: %s", e.getMessage()));
         }
 
         refreshPlaceData();
@@ -152,6 +195,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     /**
+     *  This onActivityResult is result of startActivityForResult method which is invoked back in
+     *  refreshPlaceData method.
+     *
      * @param requestCode Request code is same that we have passed while calling startActivityForResult.
      * @param resultCode  The code which we get from the second activity
      * @param data        Intent that carries the result data.
@@ -166,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 return;
             }
             String placeName = place.getName().toString();
-            String placeAdd  = place.getAddress().toString();
+            String placeAdd = place.getAddress().toString();
             String placeId = place.getId();
             Log.e(TAG_NAME, "we are getting the place!" + placeId);
             // Insert the new place in the DB.
@@ -174,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             values.put(PlaceContract.PlaceEntry.COLUMN_PLACE_ID, placeId);
             getContentResolver().insert(PlaceContract.PlaceEntry.CONTENT_URI, values);
 
+            // Update.
             refreshPlaceData();
         }
     }

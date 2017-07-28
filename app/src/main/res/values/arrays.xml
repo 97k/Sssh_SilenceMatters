@@ -7,7 +7,7 @@
     </string-array>
     <!-- Arrays values for the preference -->
     <string-array name="mode_selection_value">
-        <item>0</item>
-        <item>1</item>
+        <item>Silent</item>
+        <item>Vibrate</item>
     </string-array>
 </resources>

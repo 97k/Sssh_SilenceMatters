@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.android.sssh">
-
+    package="com.example.android.sssh">
 
 
     <application
@@ -14,31 +13,34 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA3N20MuVRvDBJh82JkvT9J6cmdBbsLiF8"/>
+            android:value="AIzaSyA3N20MuVRvDBJh82JkvT9J6cmdBbsLiF8" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity"
-                android:label="@string/settings"
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.android.sssh.MainActivity"/>
+                android:value="com.example.android.sssh.MainActivity" />
         </activity>
 
         <provider
-            android:authorities="com.example.android.sssh"
             android:name="com.example.android.sssh.provider.PlaceContentProvider"
-            android:exported="false"/>
+            android:authorities="com.example.android.sssh"
+            android:exported="false" />
+
+        <receiver android:name=".GeofencingBroadcastReceiver" />
     </application>
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> <!-- Permission for the location-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/> <!--Permission for the notification for android N and higher-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Permission for the location-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" /> <!--Permission for the notification for android N and higher-->
 
 </manifest>

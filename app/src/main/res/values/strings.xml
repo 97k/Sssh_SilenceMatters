@@ -16,6 +16,16 @@
     <string name="settings_mode_selection_label">Select Mode</string>
     <string name="settings_mode_selection_key" translatable="false">mode_selection</string>
     <string name="settings_mode_selection_default" translatable="false">Vibrate</string>
+    <string name="category_preference">Customize your need!</string>
+    <string name="back_to_normal">Back To Normal!</string>
+    <string name="silent_mode_activated">Silent Mode Activated!</string>
+    <string name="empty_view_title_text">No places are saved...</string>
+    <string name="empty_view_subtitle_text">Get started by adding a place</string>
+    <string name="geofence_switch_default">false</string>
+    <string name="geofence_switch_key">geofence_switch</string>
+    <string name="geofence_switch_off_value">false</string>
+    <string name="geogence_switch_on_value">true</string>
+    <string name="priority_mode">Under Priority Mode</string>
 
 
 </resources>
