@@ -44,7 +44,8 @@ public class GeofencingBroadcastReceiver extends BroadcastReceiver {
 
     public void setMode(Context context, int geofenceTransition) {
 
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER
+                ) {
             // Getting the shared pref as selected by user.
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
             String selectedMode = sharedPrefs.getString(context.getString(R.string.modes_selection_key),
