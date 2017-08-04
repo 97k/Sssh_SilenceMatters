@@ -26,6 +26,11 @@
     <string name="geofence_switch_off_value">false</string>
     <string name="geogence_switch_on_value">true</string>
     <string name="priority_mode">Under Priority Mode</string>
+    <!-- For dialogue permission-->
+    <string name="ask_for_dialog_permission"><p>In order to let Sssh do its task, you have to provide
+        some permission"\n"<i>This just want the do not disturb permission!</i></p></string>
+    <string name="allow_acess">Allow Acess</string>
+    <string name="cancel">Cancel</string>
 
 
 </resources>
