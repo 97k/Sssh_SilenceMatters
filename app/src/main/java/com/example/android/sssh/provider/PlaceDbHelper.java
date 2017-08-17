@@ -24,9 +24,10 @@ public class PlaceDbHelper extends SQLiteOpenHelper {
         // Create a table to hold the places data
         final String SQL_CREATE_PLACES_TABLE = "CREATE TABLE " + PlaceContract.PlaceEntry.TABLE_NAME + " (" +
                 PlaceContract.PlaceEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                PlaceContract.PlaceEntry.COLUMN_PLACE_NAME_BY_USER + " TEXT, "+
                 PlaceContract.PlaceEntry.COLUMN_PLACE_ID + " TEXT NOT NULL, " +
                 "UNIQUE (" + PlaceContract.PlaceEntry.COLUMN_PLACE_ID + ") ON CONFLICT REPLACE" +
-                "), "+ PlaceContract.PlaceEntry.COLUMN_PLACE_NAME_BY_USER + " TEXT;";
+                ");";
 
             sqLiteDatabase.execSQL(SQL_CREATE_PLACES_TABLE);
     }

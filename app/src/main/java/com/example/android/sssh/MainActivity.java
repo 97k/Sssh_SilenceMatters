@@ -247,6 +247,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onLongClick(int pos) {
         DialogFragment mDialogFragment = new Dialog();
+        Bundle bundle = new Bundle();
+        bundle.putInt(getString(R.string.bundle_position_clicked), pos);
+        mDialogFragment.setArguments(bundle);
         mDialogFragment.show(getSupportFragmentManager(), "Dialog");
 
     }

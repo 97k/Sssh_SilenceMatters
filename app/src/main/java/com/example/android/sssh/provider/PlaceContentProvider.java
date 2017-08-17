@@ -120,6 +120,7 @@ public class PlaceContentProvider extends ContentProvider {
                 } else
                     throw new android.database.SQLException("Failed to insert row in the database " + uri);
                 break;
+
             default:
                 throw new UnsupportedOperationException("Check the content uri" + uri);
         }
@@ -150,16 +151,19 @@ public class PlaceContentProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
+
+        Log.i(TAG_NAME, "Update Method called!");
         // Get the access to the database.
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         int match = sUrimatcher.match(uri);
         int numOfPlacesUpdated;
         switch (match){
             case PLACES_ID:
-                s = "=?";
-                strings = new String[]{uri.getPathSegments().get(1)};
+
+
                 numOfPlacesUpdated = database.update(PlaceContract.PlaceEntry.TABLE_NAME, contentValues,
                         s, strings);
+                Log.i(TAG_NAME, "Place Updated");
                 break;
             default:
                 throw new UnsupportedOperationException("Check the uri(update) : " +uri);
