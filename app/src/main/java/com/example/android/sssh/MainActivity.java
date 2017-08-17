@@ -25,6 +25,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.android.sssh.Dialog.AskForPermissionDialog;
+import com.example.android.sssh.Dialog.Dialog;
 import com.example.android.sssh.provider.PlaceContract;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -41,7 +43,8 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
+        , PlacesRV_Adapter.ItemLongClickListener {
 
     private static final String TAG_NAME = MainActivity.class.getSimpleName();
     private static final int PLACE_PICKER_REQUEST = 1;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private PlacesRV_Adapter mAdapter;
     private GoogleApiClient mClient;
     private Geofencing mGeofencing;
+
 
     /**
      * @param menu The menu to inflate.
@@ -70,10 +74,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         mRecyclerView = (RecyclerView) findViewById(R.id.places_list_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new PlacesRV_Adapter(this, null);
+        mAdapter = new PlacesRV_Adapter(this, null, this);
         mRecyclerView.setAdapter(mAdapter);
         addPlaceFab = (FloatingActionButton) findViewById(R.id.add_places_fab);
         emptyview = (RelativeLayout) findViewById(R.id.empty_view);
+
+
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         // For android nougat onwards you have to take permission for Notifications through
@@ -192,8 +198,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     /**
-     *  This onActivityResult is result of startActivityForResult method which is invoked back in
-     *  refreshPlaceData method.
+     * This onActivityResult is result of startActivityForResult method which is invoked back in
+     * refreshPlaceData method.
      *
      * @param requestCode Request code is same that we have passed while calling startActivityForResult.
      * @param resultCode  The code which we get from the second activity
@@ -236,5 +242,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.e(TAG_NAME, "API connection failed" + connectionResult);
+    }
+
+    @Override
+    public void onLongClick(int pos) {
+        DialogFragment mDialogFragment = new Dialog();
+        mDialogFragment.show(getSupportFragmentManager(), "Dialog");
+
     }
 }

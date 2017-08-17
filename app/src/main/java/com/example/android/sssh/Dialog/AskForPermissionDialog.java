@@ -1,4 +1,4 @@
-package com.example.android.sssh;
+package com.example.android.sssh.Dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+
+import com.example.android.sssh.R;
 
 /**
  * Created by aadi on 31/7/17.

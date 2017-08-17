@@ -14,14 +14,22 @@ import com.google.android.gms.location.places.PlaceBuffer;
  * Created by aadi on 26/7/17.
  */
 
-public class PlacesRV_Adapter extends RecyclerView.Adapter<PlacesRV_Adapter.PlacesHolder>{
+public class PlacesRV_Adapter extends RecyclerView.Adapter<PlacesRV_Adapter.PlacesHolder> {
     private static final String TAG = PlacesRV_Adapter.class.getSimpleName();
     private Context mContext;
     private PlaceBuffer mPlaces;
+    ItemLongClickListener mClickListener;
 
-    public PlacesRV_Adapter(Context context, PlaceBuffer places){
+    public PlacesRV_Adapter(Context context, PlaceBuffer places, ItemLongClickListener listener){
         this.mContext = context;
         this.mPlaces = places;
+        this.mClickListener=listener;
+    }
+
+
+
+    public interface ItemLongClickListener{
+        void onLongClick(int pos);
     }
 
     @Override
@@ -55,7 +63,7 @@ public class PlacesRV_Adapter extends RecyclerView.Adapter<PlacesRV_Adapter.Plac
         }
     }
 
-     class PlacesHolder extends RecyclerView.ViewHolder{
+     class PlacesHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
 
         TextView nameTextView;
         TextView addressTextView;
@@ -63,6 +71,14 @@ public class PlacesRV_Adapter extends RecyclerView.Adapter<PlacesRV_Adapter.Plac
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
             addressTextView = (TextView) itemView.findViewById(R.id.address_text_view);
+             itemView.setOnLongClickListener(this);
         }
-    }
+
+         @Override
+         public boolean onLongClick(View view) {
+             int clickedPos = getAdapterPosition();
+             mClickListener.onLongClick(clickedPos);
+             return false;
+         }
+     }
 }

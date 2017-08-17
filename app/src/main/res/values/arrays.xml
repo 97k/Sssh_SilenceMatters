@@ -10,4 +10,9 @@
         <item>Silent</item>
         <item>Vibrate</item>
     </string-array>
+    
+    <string-array name="selection_dialog">
+        <item>Give this place a name!</item>
+        <item>Delete this place.</item>
+    </string-array>
 </resources>

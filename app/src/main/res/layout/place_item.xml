@@ -24,7 +24,8 @@
             android:paddingEnd="4dp">
 
             <TextView
-                android:id="@+id/name_text_view"
+
+                android:id="@+id/address_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -32,9 +33,22 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/black" />
 
+            <TextView
+
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:textAlignment="viewStart"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black" />
+
+
 
             <TextView
-                android:id="@+id/address_text_view"
+
+                android:id="@+id/name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"

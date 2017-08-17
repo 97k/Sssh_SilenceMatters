@@ -31,6 +31,9 @@
         some permission"\n"<i>This just want the do not disturb permission!</i></p></string>
     <string name="allow_acess">Allow Acess</string>
     <string name="cancel">Cancel</string>
+    <string name="action_choose">Choose</string>
+    <string name="name">Name of this Place</string>
+    <string name="save">Save</string>
 
 
 </resources>
