@@ -35,6 +35,8 @@
     <string name="name">Name of this Place</string>
     <string name="save">Save</string>
     <string name="bundle_position_clicked">position_clicked</string>
+    <string name="updated">Updated</string>
+    <string name="delete_successfully">Deletd Successfully</string>
 
 
 </resources>

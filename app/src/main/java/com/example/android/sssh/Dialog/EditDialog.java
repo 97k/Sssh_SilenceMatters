@@ -36,7 +36,7 @@ public class EditDialog extends DialogFragment {
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        //Todo Save the data in the database.
+                        // Saves the data in the database.
                         Bundle bundle = getArguments();
                         int pos = bundle.getInt(getString(R.string.bundle_position_clicked));
                         saveName(pos);
@@ -60,7 +60,9 @@ public class EditDialog extends DialogFragment {
             String nameOfPlace = name.getText().toString().trim();
             ContentValues values = new ContentValues();
             values.put(PlaceContract.PlaceEntry.COLUMN_PLACE_NAME_BY_USER, nameOfPlace);
+
             Log.i(TAG, "Position is = " + pos);
+
             Uri uri = ContentUris.withAppendedId(PlaceContract.PlaceEntry.CONTENT_URI, pos);
             String selection = PlaceContract.PlaceEntry._ID + "=?";
             String[] selectionArgs = new String[]{String.valueOf(pos+1)};

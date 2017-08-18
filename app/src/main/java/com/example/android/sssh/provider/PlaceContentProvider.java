@@ -11,6 +11,9 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.android.sssh.R;
 
 /**
  * Created by aadi on 26/7/17.
@@ -75,10 +78,23 @@ public class PlaceContentProvider extends ContentProvider {
         final SQLiteDatabase database = mDbHelper.getReadableDatabase();
         // Matching the uri and then fitting the needs inside the switch case.
         int match = sUrimatcher.match(uri);
+        Log.i(TAG_NAME, "Uri matches with : " + match);
         Cursor cursor;
         switch (match) {
             case PLACES:
                 // Means we have to query for the whole table.
+                cursor = database.query(PlaceContract.PlaceEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            case PLACES_ID:
+                selection = PlaceContract.PlaceEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+
                 cursor = database.query(PlaceContract.PlaceEntry.TABLE_NAME,
                         projection,
                         selection,
@@ -95,6 +111,7 @@ public class PlaceContentProvider extends ContentProvider {
         }
         // Set a notification URI on the Cursor and return that Cursor
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        getContext().getContentResolver().notifyChange(uri, null);
         return cursor;
     }
 
@@ -144,7 +161,10 @@ public class PlaceContentProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Check the uri : " + uri);
         }
-        if (numberOfPlacesDeleted!=0) getContext().getContentResolver().notifyChange(uri, null);
+        if (numberOfPlacesDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+            Toast.makeText(getContext(), getContext().getString(R.string.delete_successfully), Toast.LENGTH_SHORT);
+        }
 
         return numberOfPlacesDeleted;
     }
@@ -157,20 +177,22 @@ public class PlaceContentProvider extends ContentProvider {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         int match = sUrimatcher.match(uri);
         int numOfPlacesUpdated;
-        switch (match){
+        switch (match) {
             case PLACES_ID:
 
 
                 numOfPlacesUpdated = database.update(PlaceContract.PlaceEntry.TABLE_NAME, contentValues,
                         s, strings);
+                if (numOfPlacesUpdated != -1)
+                    Toast.makeText(getContext(), "Place Updated", Toast.LENGTH_SHORT).show();
                 Log.i(TAG_NAME, "Place Updated");
                 break;
             default:
-                throw new UnsupportedOperationException("Check the uri(update) : " +uri);
+                throw new UnsupportedOperationException("Check the uri(update) : " + uri);
 
 
         }
-        if (numOfPlacesUpdated!=0){
+        if (numOfPlacesUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return numOfPlacesUpdated;
