@@ -16,6 +16,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -68,6 +69,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
+
+
+
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -76,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new PlacesRV_Adapter(this, null, this);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         addPlaceFab = (FloatingActionButton) findViewById(R.id.add_places_fab);
         emptyview = (RelativeLayout) findViewById(R.id.empty_view);
 
@@ -214,8 +226,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 Log.i(TAG_NAME, "No place Selected!");
                 return;
             }
-            String placeName = place.getName().toString();
-            String placeAdd = place.getAddress().toString();
+
             String placeId = place.getId();
             Log.e(TAG_NAME, "we are getting the place!" + placeId);
             // Insert the new place in the DB.
@@ -251,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         bundle.putInt(getString(R.string.bundle_position_clicked), pos);
         mDialogFragment.setArguments(bundle);
         mDialogFragment.show(getSupportFragmentManager(), "Dialog");
+        mAdapter.notifyDataSetChanged();
 
     }
 }

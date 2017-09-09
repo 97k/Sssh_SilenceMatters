@@ -37,6 +37,7 @@
     <string name="bundle_position_clicked">position_clicked</string>
     <string name="updated">Updated</string>
     <string name="delete_successfully">Deletd Successfully</string>
+    <string name="default_name_tv">Long Press to add custom name!</string>
 
 
 </resources>

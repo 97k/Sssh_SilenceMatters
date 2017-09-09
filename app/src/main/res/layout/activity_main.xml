@@ -16,9 +16,8 @@
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/colorPrimaryDark"
 
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             />
 
         <android.support.v7.widget.RecyclerView

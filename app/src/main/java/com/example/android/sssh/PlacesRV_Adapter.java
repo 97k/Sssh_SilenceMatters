@@ -45,15 +45,15 @@ public class PlacesRV_Adapter extends RecyclerView.Adapter<PlacesRV_Adapter.Plac
     @Override
     public void onBindViewHolder(PlacesHolder holder, int position) {
 
-        String nameOfPlace = mPlaces.get(position).getName().toString();
+        //String nameOfPlace = mPlaces.get(position).getName().toString();
         String addressOfPlace = mPlaces.get(position).getAddress().toString();
-        Log.e(TAG, nameOfPlace);
+        //Log.e(TAG, nameOfPlace);
 
         int value = position + 1;
         // Getting the URi of the clicked position.
         Uri uri = ContentUris.withAppendedId(PlaceContract.PlaceEntry.CONTENT_URI, value);
         Log.i(TAG, "Uri is " + uri);
-        holder.nameTextView.setText(nameOfPlace);
+        // holder.nameTextView.setText(nameOfPlace);
 
         if (uri != null) {
             // Projection, that specifies which columns from the database.
@@ -62,11 +62,9 @@ public class PlacesRV_Adapter extends RecyclerView.Adapter<PlacesRV_Adapter.Plac
             Cursor data = mContext.getContentResolver().query(uri, projection, null, null, null);
             if (data != null && data.moveToFirst()) {
                 String name;
-                if (data != null) {
-                    name = data.getString(data.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_PLACE_NAME_BY_USER));
-                    if (name != null)
-                        holder.nameTextView.setText(name);
-                }
+                name = data.getString(data.getColumnIndex(PlaceContract.PlaceEntry.COLUMN_PLACE_NAME_BY_USER));
+                if (name != null)
+                    holder.nameTextView.setText(name);
             }
         }
 

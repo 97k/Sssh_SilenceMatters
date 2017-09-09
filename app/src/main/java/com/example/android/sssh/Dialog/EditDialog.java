@@ -67,6 +67,7 @@ public class EditDialog extends DialogFragment {
             String selection = PlaceContract.PlaceEntry._ID + "=?";
             String[] selectionArgs = new String[]{String.valueOf(pos+1)};
             getActivity().getContentResolver().update(uri, values, selection, selectionArgs);
+
         } catch (NullPointerException e) {
             Log.e(TAG, e.getMessage());
         }
